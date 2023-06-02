@@ -1,7 +1,7 @@
 <?php
 
 /**PokeAPI のデータを取得する (URL 末尾の数字はポケモン図鑑の ID) */
-$url = 'https://pokeapi.co/api/v2/pokemon/?limit=10&offset=0';
+$url = 'https://pokeapi.co/api/v2/pokemon/?limit=20&offset=0';
 $response = file_get_contents($url);
 //レスポンスデータは JSON 形式なので、デコードして連想配列にする
 $data = json_decode($response , true);
@@ -16,7 +16,27 @@ $data = json_decode($response , true);
 </head>
 <body>
     <?php
-        foreach($data["results"] as $key => $value){
+        define('MAX','10');
+
+        $poke_num = count($data);
+        print("<pre>");
+        var_dump($data);
+        var_dump($poke_num);
+        print("</pre>");
+        // $poke_num ;
+        $max_page = ceil($poke_num / MAX);
+        
+        if(!isset($_GET['page_id'])){
+            $now = 1;
+        }else{
+            $now = $_GET['page_id'];
+        }
+        
+        $start_no = ($now - 1) * MAX;
+        
+        $disp_data = array_slice($data, $start_no, MAX, true);
+
+        foreach($disp_data["results"] as $key => $value){
             $url2 = $value["url"];
             $response2 = file_get_contents($url2);
         
@@ -28,6 +48,28 @@ $data = json_decode($response , true);
             タイプ：<?= $data2["types"][0]["type"]["name"]; ?><br>
             身長：<?= $data2["height"]; ?><br>
             体重：<?= $data2["weight"]; ?><br>
-        <?php } ?>
+        <?php } 
+        
+        echo '全件数'. $poke_num. '件'. '　'; // 全データ数の表示です。
+ 
+        if($now > 1){ // リンクをつけるかの判定
+            echo '<a href="peke2.php?page_id='.($now - 1).'")>前へ</a>'. '　';
+        } else {
+            echo '前へ'. '　';
+        }
+        
+        for($i = 1; $i <= $max_page; $i++){
+            if ($i == $now) {
+                echo $now. '　'; 
+            } else {
+                echo '<a href="peke2.php?page_id='. $i. '")>'. $i. '</a>'. '　';
+            }
+        }
+        
+        if($now < $max_page){ // リンクをつけるかの判定
+            echo '<a href="/paging.php?page_id='.($now + 1).'")>次へ</a>'. '　';
+        } else {
+            echo '次へ';
+        }?>
 </body>
 </html>
