@@ -18,14 +18,9 @@ $data = json_decode($response , true);
     <?php
         define('MAX','10');
 
-        $poke_num = count($data);
-        print("<pre>");
-        var_dump($data);
-        var_dump($poke_num);
-        print("</pre>");
-        // $poke_num ;
+        $poke_num = count($data["results"]);
         $max_page = ceil($poke_num / MAX);
-        
+
         if(!isset($_GET['page_id'])){
             $now = 1;
         }else{
@@ -34,9 +29,12 @@ $data = json_decode($response , true);
         
         $start_no = ($now - 1) * MAX;
         
-        $disp_data = array_slice($data, $start_no, MAX, true);
+        $disp_data = array_slice($data["results"], $start_no, MAX, true);
 
-        foreach($disp_data["results"] as $key => $value){
+        foreach($disp_data as $key => $value){
+            // print("<pre>");
+            // var_dump($disp_data);
+            // print("</pre>");
             $url2 = $value["url"];
             $response2 = file_get_contents($url2);
         
