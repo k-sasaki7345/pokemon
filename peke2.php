@@ -1,7 +1,7 @@
 <?php
 if(empty($_GET)){
     /**PokeAPI のデータを取得する (URL 末尾の数字はポケモン図鑑の ID) */
-    $url = "https://pokeapi.co/api/v2/pokemon/?limit=10&offset=0";
+    $url = "https://pokeapi.co/api/v2/pokemon/?limit={$limit}&offset=0";
 }
 else{
     if($_GET["page"] == "次へ"){
@@ -11,6 +11,18 @@ else{
         $url = $_GET["previous"];
     }
 }
+
+// if(!impty($_GET["limit"])){
+//     if($_GET["limit"] == 1){
+//         $limit = 10;
+//     }
+//     else if($_GET["limit"] == 3){
+//         $limit = 30;
+//     }
+//     else if($_GET["limit"] == 5){
+//         $limit = 50;
+//     }
+// }
 
 
 $response = file_get_contents($url);
@@ -42,14 +54,15 @@ $data = json_decode($response , true);
             $response2 = file_get_contents($url2);
         
             $data2 = json_decode($response2 , true); 
-            // print("<pre>");
-            // var_dump($data2);
-            // print("</pre>"); 
+            print("<pre>");
+            var_dump($data2);
+            print("</pre>"); 
             ?>
             <div class="box">
                 <div class="img">
-                    <img src="<?= $data2['sprites']['front_default'] ?>"><br>
+                    <img src="<?= $data2['sprites']['front_default'] ?>"><img src="<?= $data2['sprites']['back_default'] ?>"><br>
                 </div>
+            
                 <div class="name">
                     <p>名前：<?= $value["name"]; ?></p>
                 </div>
@@ -72,7 +85,7 @@ $data = json_decode($response , true);
                 if($data["previous"] != NULL){ //リンクをつけるか判定 ?>
                     <input type="hidden" value="<?= $data["previous"] ?>" name="previous">
                     <input type="submit" name="page" value="前へ">
-                <?php 
+                <?php }
                 if($data["next"] != NULL ) { ?>
                     <input type="hidden" value="<?= $data["next"] ?>" name="next">
                     <input type="submit" name="page" value="次へ">
