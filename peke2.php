@@ -12,6 +12,18 @@ else{
     }
 }
 
+// if(!impty($_GET["limit"])){
+//     if($_GET["limit"] == 1){
+//         $limit = 10;
+//     }
+//     else if($_GET["limit"] == 3){
+//         $limit = 30;
+//     }
+//     else if($_GET["limit"] == 5){
+//         $limit = 50;
+//     }
+// }
+
 
 $response = file_get_contents($url);
 //レスポンスデータは JSON 形式なので、デコードして連想配列にする
@@ -39,6 +51,7 @@ $data = json_decode($response , true);
             // var_dump($data);
             // print("</pre>");
             $url2 = $value["url"];
+
             $response2 = file_get_contents($url2);
         
             $data2 = json_decode($response2 , true); 
@@ -50,8 +63,9 @@ $data = json_decode($response , true);
                 <div class="img">
                     <img src="<?= $data2['sprites']['front_default'] ?>"><br>
                 </div>
+            
                 <div class="name">
-                    <p>名前：<?= $value["name"]; ?></p>
+                    名前：<a href="peko_detail.php?url='<?= $value["url"] ?>'"><?= $value["name"]; ?></a>
                 </div>
                 <div class="type">
                     <p>タイプ：<?= $data2["types"][0]["type"]["name"]; ?></p>
@@ -72,7 +86,7 @@ $data = json_decode($response , true);
                 if($data["previous"] != NULL){ //リンクをつけるか判定 ?>
                     <input type="hidden" value="<?= $data["previous"] ?>" name="previous">
                     <input type="submit" name="page" value="前へ">
-                <?php 
+                <?php }
                 if($data["next"] != NULL ) { ?>
                     <input type="hidden" value="<?= $data["next"] ?>" name="next">
                     <input type="submit" name="page" value="次へ">
