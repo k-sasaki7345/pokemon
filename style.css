@@ -1,0 +1,28 @@
+html{
+    background-color: bisque;
+}
+#header{
+    background-color: orange;
+    padding: auto;
+    text-align: center;
+}
+
+.box{
+    background-color: white;
+    width: 300px;
+    height: 300px;
+    border: outset ;
+    padding: 20px;
+    margin: 5px;
+    /* align-items: center; */
+    text-align: center;
+    
+}
+
+.container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: space-between;
+    /* grid-template-rows: 100px 100px 100px 100px; */
+    gap: 20px;
+}
