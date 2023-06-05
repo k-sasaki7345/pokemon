@@ -1,7 +1,7 @@
 <?php
 if(empty($_GET)){
     /**PokeAPI のデータを取得する (URL 末尾の数字はポケモン図鑑の ID) */
-    $url = "https://pokeapi.co/api/v2/pokemon/?limit={$limit}&offset=0";
+    $url = "https://pokeapi.co/api/v2/pokemon/?limit=10&offset=0";
 }
 else{
     if($_GET["page"] == "次へ"){
@@ -51,12 +51,13 @@ $data = json_decode($response , true);
             // var_dump($data);
             // print("</pre>");
             $url2 = $value["url"];
+
             $response2 = file_get_contents($url2);
         
             $data2 = json_decode($response2 , true); 
-            print("<pre>");
-            var_dump($data2);
-            print("</pre>"); 
+            // print("<pre>");
+            // var_dump($data2);
+            // print("</pre>"); 
             ?>
             <div class="box">
                 <div class="img">
@@ -64,7 +65,7 @@ $data = json_decode($response , true);
                 </div>
             
                 <div class="name">
-                    <p>名前：<?= $value["name"]; ?></p>
+                    名前：<a href="peko_detail.php?url='<?= $value["url"] ?>'"><?= $value["name"]; ?></a>
                 </div>
                 <div class="type">
                     <p>タイプ：<?= $data2["types"][0]["type"]["name"]; ?></p>
