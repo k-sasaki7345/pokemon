@@ -60,7 +60,7 @@ $data = json_decode($response , true);
             ?>
             <div class="box">
                 <div class="img">
-                    <img src="<?= $data2['sprites']['front_default'] ?>"><img src="<?= $data2['sprites']['back_default'] ?>"><br>
+                    <img src="<?= $data2['sprites']['front_default'] ?>"><br>
                 </div>
             
                 <div class="name">
