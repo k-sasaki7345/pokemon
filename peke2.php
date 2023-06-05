@@ -1,18 +1,18 @@
 <?php
 if(empty($_GET)){
-    $offset = 0;
+    /**PokeAPI のデータを取得する (URL 末尾の数字はポケモン図鑑の ID) */
+    $url = "https://pokeapi.co/api/v2/pokemon/?limit=10&offset=0";
 }
 else{
     if($_GET["page"] == "次へ"){
-        $offset = 10 + $_GET["back_off"];
+        $url = $_GET["next"];
     }
     else if($_GET["page"] == "前へ"){
-        $offset =  $_GET["back_off"] - 10;
+        $url = $_GET["previous"];
     }
 }
 
-/**PokeAPI のデータを取得する (URL 末尾の数字はポケモン図鑑の ID) */
-$url = "https://pokeapi.co/api/v2/pokemon/?limit=10&offset={$offset}";
+
 $response = file_get_contents($url);
 //レスポンスデータは JSON 形式なので、デコードして連想配列にする
 $data = json_decode($response , true);
@@ -36,13 +36,16 @@ $data = json_decode($response , true);
     <?php
         foreach($data["results"] as $key => $value){
             // print("<pre>");
-            // var_dump($data["results"]);
+            // var_dump($data);
             // print("</pre>");
-
             $url2 = $value["url"];
             $response2 = file_get_contents($url2);
         
-            $data2 = json_decode($response2 , true); ?>
+            $data2 = json_decode($response2 , true); 
+            // print("<pre>");
+            // var_dump($data2);
+            // print("</pre>"); 
+            ?>
             <div class="box">
                 <div class="img">
                     <img src="<?= $data2['sprites']['front_default'] ?>"><br>
@@ -66,13 +69,14 @@ $data = json_decode($response , true);
         <form action="" method="get">
             <?php
         
-                if($offset != 0){ //リンクをつけるか判定 ?>
+                if($data["previous"] != NULL){ //リンクをつけるか判定 ?>
+                    <input type="hidden" value="<?= $data["previous"] ?>" name="previous">
                     <input type="submit" name="page" value="前へ">
-                <?php } else {
-                    echo '前へ'. '　';  
-                } ?>
-                    <input type="hidden" value="<?= $offset ?>" name="back_off">
+                <?php 
+                if($data["next"] != NULL ) { ?>
+                    <input type="hidden" value="<?= $data["next"] ?>" name="next">
                     <input type="submit" name="page" value="次へ">
+                <?php } ?>
         </form>
 
 </body>
