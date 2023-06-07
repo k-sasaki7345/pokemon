@@ -46,36 +46,30 @@ $data = json_decode($response , true);
 <body>
     <div class="container">
     <?php
-        foreach($data["results"] as $key => $value){
-            // print("<pre>");
-            // var_dump($data);
-            // print("</pre>");
+        foreach($data["results"] as $value){
+           
             $url2 = $value["url"];
 
             $response2 = file_get_contents($url2);
         
             $data2 = json_decode($response2 , true); 
-            // print("<pre>");
-            // var_dump($data2);
-            // print("</pre>"); 
+           
             ?>
             <div class="box">
-                <div class="img">
-                    <img src="<?= $data2['sprites']['front_default'] ?>"><br>
-                </div>
+               
+                <img src="<?= $data2['sprites']['front_default'] ?>"><br>
 
-                <div class="name">
-                    <strong><a href="peko_detail.php?url='<?= $value["url"] ?>'"><?= $value["name"]; ?></a></strong>
-                </div>
-                <div class="type">
-                    <p>タイプ：<?= $data2["types"][0]["type"]["name"]; ?></p>
-                </div>
-                <div class="height">
-                    <p>たかさ：<?= $data2["height"]; ?></p>
-                </div>
-                <div class="weight">
-                    <p>おもさ：<?= $data2["weight"]; ?></p>
-                </div>
+                <strong><a href="peko_detail.php?url='<?= $value["url"] ?>'"><?= $value["name"]; ?></a></strong>
+                
+                <p>タイプ：
+                <?php foreach($data2['types'] as $key => $type){
+                    echo $type['type']['name']." ";
+                } ?>
+                </p>
+                <p>たかさ：<?= $data2["height"]; ?></p>
+    
+                <p>おもさ：<?= $data2["weight"]; ?></p>
+            
             </div>
         <?php } ?>
 
