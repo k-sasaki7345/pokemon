@@ -63,35 +63,36 @@ $data = json_decode($response , true);
                 <div class="img">
                     <img src="<?= $data2['sprites']['front_default'] ?>"><br>
                 </div>
-            
+
                 <div class="name">
-                    名前：<a href="peko_detail.php?url='<?= $value["url"] ?>'"><?= $value["name"]; ?></a>
+                    <strong><a href="peko_detail.php?url='<?= $value["url"] ?>'"><?= $value["name"]; ?></a></strong>
                 </div>
                 <div class="type">
                     <p>タイプ：<?= $data2["types"][0]["type"]["name"]; ?></p>
                 </div>
                 <div class="height">
-                    <p>身長：<?= $data2["height"]; ?></p>
+                    <p>たかさ：<?= $data2["height"]; ?></p>
                 </div>
                 <div class="weight">
-                    <p>体重：<?= $data2["weight"]; ?></p>
+                    <p>おもさ：<?= $data2["weight"]; ?></p>
                 </div>
             </div>
         <?php } ?>
 
-        </div>
+    </div>
+    <div class="button">
         <form action="" method="get">
             <?php
         
-                if($data["previous"] != NULL){ //リンクをつけるか判定 ?>
+                if($data["previous"] != NULL){  ?>
                     <input type="hidden" value="<?= $data["previous"] ?>" name="previous">
-                    <input type="submit" name="page" value="前へ">
+                    <input type="submit" name="page" value="前へ" class="button-previous">
                 <?php }
                 if($data["next"] != NULL ) { ?>
                     <input type="hidden" value="<?= $data["next"] ?>" name="next">
-                    <input type="submit" name="page" value="次へ">
+                    <input type="submit" name="page" value="次へ" class="button-next">
                 <?php } ?>
         </form>
-
+    </div>
 </body>
 </html>
